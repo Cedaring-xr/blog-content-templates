@@ -12,7 +12,8 @@ Next.js has two forms of pre-rendering: **Static Generation** and **Server-side 
 Importantly, Next.js lets you **choose** which pre-rendering form to use for each page. You can create a "hybrid" Next.js app by using Static Generation for most pages and using Server-side Rendering for others.
 
 Random code snippet
-`code`
+
+````
 export default function Error({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
 useEffect(() => {
 // Log the error to an error reporting service
@@ -35,6 +36,6 @@ console.error(error)
     		</p>
     	</div>
     )
+}```
 
-}
-`code`
+````
