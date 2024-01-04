@@ -1,0 +1,49 @@
+---
+title: 'AWS Amplify hosting vs building'
+date: '2024-01-02'
+tags: ['AWS', 'Amplify', 'Cloud Architecture']
+readTime: '~5 min'
+---
+
+**Intro on AWS Amplify**
+AWS Amplify is an all-in-one easy build service for launching web applications utilizing AWS infrastructure. Amplify offers a streamlined process for getting up and running fast, but also has limited features and limited connectivity with other AWS services. The best use case for Amplify is simple front-end applications or creating a proof of concept prototype. In some ways Amplify is similar to AWS Elastic Beanstalk except that Amplify is tailored towards building specifically web based applications, whereas Elastic Beanstalk can build a much wider range of applications.
+
+**Deciding on the use Cases for Amplify**
+There are two main way of interacting with Amplify. hosting an application and building an application. Let's take a deeper look into each of them and start to understand the use cases and tradeoffs for each of them.
+
+## Hosting an application
+
+Hosting an application is the easier of the two processes offered by Amplify. Hosting an application works best with front-end only, single page apps, or static websites. By creating a connection between Amplify and your code repository service of choice, Amplify can automatically detect changes and launch an updated version of the application. At first you get a fully deployed version of your app using an AWS temporary URL to view from. Later if you need to attach a permanent domain name, the process is very easy if the domain is hosted through the Route 53 service.
+what options are available
+There are a variety of configuration options that are important to consider when hosting a web app. Where the application is connected to compared to your code repository
+Usage of any environment variables is easy to setup. If you have an environment variable such as an API key or build configuration that will not be committed with code,
+**The build Process**
+Amplify has it's own miniature version of a CI/CD build pipeline. Once a change is detected in the attached repository or a deploy is triggered it will start a new build process. There are only three steps: Provision, build, and deploy
+<CustomImage
+      src="https://raw.githubusercontent.com/cedaring-xr/blog-content-templates/main/images/amplify-build.png"
+      alt="amplify build process"
+      priority="true"/>
+**repo connections and auto deploys**
+
+    	What this means in practice is that when hosting an application, it will only really work with front-end frameworks. SSR based frameworks such as Next.js typically will not work unless you attach a backend system for deploying that code.
+    	- There is a brand new section within Amplify for working specifically with Next.js apps and creating a base starter project. It would be recommended to use this feature if you are trying to combine a Next.js application with Amplify. Currently the starter project that they setup for you is using Next.js version 13.5.4
+
+
+## Building an application
+
+Building an application through Amplify is a more complex process used for full-stack applications that want to utilize one or more of the other AWS services such as APIs, Databases, Authentication, or logging. It is also necessary if your application has backend logic or server side rendering since hosting an application only deals with the front-end parts.
+what options are available
+One thing to keep in mind when building through Amplify, is that it will automatically spin up other AWS services. It is important to have an understanding and monitor what Amplify creates and if it will be charging money to the AWS account. You can monitor in cloudFormation what was created from the template that was used. In general, Amplify will use services that fall under the free tier or are very cheap, but it is important to be vigilant and not be caught with any unwanted spend costs.
+backend services
+The most common connections to Amplify are DynamoDB for a database service, Cognito for authentication and user management, Cloudwatch for a logging service, Cloud Formation used to create and spin up the architecture, and S3 for additional storage options.
+CLI and console
+The Primary way of interacting with a Amplify build project is through the AWS CLI. If you are not already familiar with the CLI, it stands for Command Line Interface, and is a unified tool that you download to interact with AWS. It is widely used across all of AWS development for interacting with all services in AWS.
+A good tutorial for downloading and explaining how to use the CLI can be found here:
+[Install and use CLI]
+(https://cloudacademy.com/blog/how-to-use-aws-cli/)
+[AWS CLI documentation]
+(https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html)
+**The most useful CLI commands with Amplify are:** - amplify configure - configure access credentials, attach account and user profile - amplify init - initialize a new project using amplify - amplify add storage - create a database connection to DynamoDB tables - amplify add api - - amplify build - provisions cloud resources with the latest local developments - amplify push - pushes local build settings to cloud resources
+There are other commands available to do just about anything you need, these are just the basics to get started.
+**Conclusion**
+Hopefully this was a good primer into the AWS Amplify service and what it is used for.
