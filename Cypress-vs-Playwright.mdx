@@ -1,29 +1,26 @@
 ---
-title: 'Comparing Modern Testing Frameworks'
+title: 'Modern end-to-end testing methodologies'
 date: '2023-12-01'
-tags: ['Cypress.io', 'Playwright', 'Testing', 'Automation']
-readTime: '~5 min'
+tags: ['Cypress', 'Playwright', 'Testing', 'Automation']
+readTime: '~3 min'
 ---
 
-Modern testing frameworks and why the traditional role of QA testing is outdated
+**Intro into modern web app testing**
 
-<CustomImage
-	src="https://raw.githubusercontent.com/cedaring-xr/blog-content-templates/main/images/blackandRedSunset.png"
-	alt="placeholder for now"
-	priority="true"
-/>
+Modern testing frameworks handle testing in a more comprehensive way, and mirror the more modern development frameworks that they are testing for. The older alternative is to use a separated process that is independant of the language and methodologies of development. In practicality this means using Selenium with your language of choice to independently perform the testing on an application. While this allows for more overall flexibility, in my opinion completely separating the testing process and the development process is a uneccesary practice, and leads to a greater team separation and lack of knowledge transfer and communication. The end result is an overall decrease in quality and an increase in time spent between release cycles.
 
-UI testing frameworks overview
+**Cypress.io**
 
-Cypress and Playwright are the most comprehensive new testing frameworks in use today.
+Cypress is a very expansive testing framework that can be used a little or a lot depending on your needs. Most people view Cypress as an end-to-end testing framework, but it can also handle integration level tests very well and is also capable of handling unit testing. I have spend several years working though the different use cases of Cypress, and found it very enjoyable to work with.
 
-Older ways
+**Playwright**
 
-Selenium, WebdriverIO, Cucumber
-All of these are very archaic and completely segmented away from the the codebase that is testing
+Playwright is a powerful testing tool that pairs very well with React based applications.
 
-Testing on modern web applications
+**Large shift in testing mindset**
 
-Closely pairing your testing with the main codebase
+Having a separated team structure, skillset, and mindset between testers and development leads to an overall decrease in quality over time. I have met a handful of developers that have a poor opinion of testers for many reasons. I have also met many testers that have a severe lack of knowledge around how to develop and build application. I believe that
 
-Cross functionality in development and testing teams
+If you have a development framework written in a certain language, then your testing framework should match that and be written in a similar manor.
+
+**Closely pairing your testing with the main codebase**
