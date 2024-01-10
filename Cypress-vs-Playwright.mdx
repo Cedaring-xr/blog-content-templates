@@ -6,18 +6,22 @@ readTime: '~3 min'
 ---
 
 **Intro into modern web app testing**
+
 &nbsp;&nbsp;&nbsp;&nbsp;Modern testing frameworks handle testing in a more comprehensive way, and mirror the more modern development frameworks that they are testing for. The older alternative is to use a separated process that is independent of the language and methodologies of development. In practicality this means using Selenium with your language of choice to independently perform the testing on an application. While this allows for more independence, in my opinion completely separating the testing process and the development process is a unnecessary practice. It leads to a greater team separation and lack of knowledge transfer and communication. The end result is an overall decrease in application quality and a increase in time spent between release cycles. Let's start by going over some more modern testing frameworks, then cover why it is better to use them over a segmented process.
 
 <CustomImage
 	src="https://raw.githubusercontent.com/cedaring-xr/blog-content-templates/main/images/Cypress_logo.png"
 	alt="Cypress testing logo"
 	priority="true"
+	width="300px"
 />
 
 **Cypress.io**
+
 &nbsp;&nbsp;&nbsp;&nbsp;Cypress is a very expansive testing framework that can be used a little or a lot depending on your needs. Most people view Cypress as an end-to-end testing framework, but it can also handle integration level tests very well and is also capable of handling unit testing. I have spend several years working though the different use cases of Cypress, and found it very enjoyable to work with. For the test runner itself, Cypress executes scripts in the browser in the same loop as your application. This allows for faster execution and a closer pairing between application and tests. A built-in inherit wait system allows Cypress test to run more consistently and allows for a bit of flexibility on application performance without failing tests. One of the best features of Cypress is the test reporter functionality. It sends test runs and results to a separate dashboard for review and collects statistics on test runs. This allows you to provide accountability for test runs and results to the team or management.
 
 **Playwright**
+
 &nbsp;&nbsp;&nbsp;&nbsp;Playwright is a powerful testing tool that pairs very well with React applications. Testing can be arranged in a component-based structure that mirrors React, which makes it easier to update and maintain tests. Unlike Cypress, Playwright has support for multiple languages of use. For someone who was familiar with writing Selenium tests in Java or C#, then making the transition to Playwright might be easier, although I believe that pairing the language of the application and the language of the testing framework are important. Playwright is also likely a better choice for mobile application testing, as it supports that already out of the box. One other additional features is the ability to run multiple tabs in parallel. This could be very useful for testing some more complicated workflows.
 
 <CustomImage
@@ -26,12 +30,15 @@ readTime: '~3 min'
 />
 
 **The real benefit of modern testing frameworks**
+
 &nbsp;&nbsp;&nbsp;&nbsp;Both Cypress and Playwright are popular modern testing frameworks that offer great improvements on the concepts of end-to-end testing for web applications. The biggest improvemnts come from an easier coding workflow in dealing with selectors and executing actions inside the tests. The lesser talked about benefits are that these frameworks pair more closely with the development process, allowing your testers to have better communication with your developers. If your using Selenium, it's pretty common to store your test suite in an enirely separate repository, whereas with both Cypress and Playwright, tests often live in the repo for the application under a testing folder. This allows you to create a closer loop between feature development time and feature testing time.
 
 **Shift in testing mindset**
+
 &nbsp;&nbsp;&nbsp;&nbsp;Having a separated team structure, skillset, and mindset between testers and development leads to an overall decrease in quality over time. I have met a handful of developers that have a poor opinion of testers for a variety of reasons. I have also met many testers that have a severe lack of knowledge around how to develop and build applications. I believe that having a better knowledge transfer and skillset between developers and testers is a better for the team and also better for the quality of the application being built. The job of QA should be to improve the overall quality of an application. Improving overall quality means that you understand application architecture, where and how performance may be suffering, and be able to suggest improvements. Being a better asset to your team should be the goal of every QA engineer, not just providing tests and bug reporting.
 
 **cross-collaboration in teams**
+
 &nbsp;&nbsp;&nbsp;&nbsp;Creating a responsive and flexible team is a great asset in achieving Agile development. Having team members be able to cover the skillsets of others if they are out or helping on features that need more focus is crucial in keeping up productivity and meeting development cycle timelines. The same benefit can be observed by having front-end and back-end engineers that have full-stack knowledge and capabilities. Having QA engineers that have development capabilities goes a long way in providing feedback and assistance in improving the quality of applications. Using modern testing frameworks allows QA to be more involded in the overall team and gain application development skills more easily.
 
 <CustomImage
@@ -40,4 +47,5 @@ readTime: '~3 min'
 />
 
 **Conclusion**
+
 &nbsp;&nbsp;&nbsp;&nbsp;There are many different ways to handle end-to-end testing, and ultimately you have to decide what is best for your team and application being developed. I am just really frustrated by companies that view testing the same way as they did 15 years ago, and larger companies that entirely separate development teams and testing teams. If you are building modern web applications, then it makes sense to use modern testing tools. And if you want your testing team to find and communicate meaningful bugs, then the testers need to have a deep understanding of how development is executed and be able to suggest improvements while being an active member of the team. Application development has changed a great deal of the past 15 years, but many people overlook the changes in testing methodologies and techniques.
