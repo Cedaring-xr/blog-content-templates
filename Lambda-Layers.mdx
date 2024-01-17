@@ -2,39 +2,59 @@
 title: 'Lambda Layers with Python'
 date: '2023-12-20'
 tags: ['AWS Lambda', 'serverless', 'Python']
-readTime: '~5 min'
+readTime: '~3 min'
 ---
 
-Details on creating custom packages for use in Lambda Layers
+**Intro into AWS Lambda and Lambda layers**
+
+&nbsp;&nbsp;&nbsp;&nbsp;AWS Lambda is a serverless AWS service that runs simple computation functions. It allows you to run smaller dedicated bits of code without setting up and allocating server space. Lambda has a wide variety of uses from data processing, API connections, workflow automation, file processing, scheduled tasks, and others. Lambda functions can be written in a variety of languages such as Node, Python, Java, Go, .Net, and Ruby.
+
+**Lambda Layers**
+
+&nbsp;&nbsp;&nbsp;&nbsp;Layers are a feature on top of AWS Lambda. They represent an abstracted layer on top of the function that store dependecy code needed for Lambda functions to run correctly. Layers are independent from the code that you want to use in Lambda. The can be added, removed, or updated without having to modify function code.
+
+**The benefits of layers**
+
+&nbsp;&nbsp;&nbsp;&nbsp;Using Lambda layers offers a number of benefits but let's look at the alternative first. The alternaitve to using Lambda layers is to zip your entire Lambda application and all dependencies into a folder and upload it as a single unit to AWS Lambda. While this is a nice way of knowing that your application has all the neccesary part to work, it has a few downsides. There is no sense of re-usability in your dependencies. So if you had 10 different Lambda functions that all use Boto3 as a dependency, then you would have to package each function with a version of Boto. Another main benefit is that you can easily modify function code without having to re-package and re-upload code. AWS Lambda has a 3MB limit for the package code to be editable from within the console. When writing only function code, this limit is easy to stay below. If packaging dependencies with code, then the total package size is almost always over 3MB, meaning that you can not edit or modify code without re-zipping and re-upload a new package. Editing Lambda function code from within the console is a quick and easy way to make minor changes, test things quickly, and get immediate feedback.
+
+**Setting up with Python**
+
+&nbsp;&nbsp;&nbsp;&nbsp;Python is a great language to start writing Lambda functions in. I'll be using it as an example here. Let's start with a small function for use in Lambda. This code just resizes some images stored in an AWS S3 bucket. It requires 2 different Python libraries to work though. PIL which is stands for pillow imaging library, which is needed for processing the images. And Boto, with is a library for interfacing with AWS.
 
 ```
-export default function Error({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
-useEffect(() => {
-// Log the error to an error reporting service
-console.error(error)
-}, [error])
+import boto3
+import os
+import sys
+import uuid
+from urllib.parse import unquote_plus
+from PIL import Image
+import PIL.Image
 
-    return (
-    	<div>
-    		<h2>Something went wrong!</h2>
-    		<button
-    			onClick={
-    				// Attempt to recover by trying to re-render the segment
-    				() => reset()
-    			}
-    		>
-    			Try again
-    		</button>
-    		<p>
-    			Or go back to <Link href="/">Home page</Link>
-    		</p>
-    	</div>
-    )
-}
+s3_client = boto3.client('s3')
+
+def resize_image(image_path, resized_path):
+  with Image.open(image_path) as image:
+    image.thumbnail(tuple(x / 3 for x in image.size))
+    image.save(resized_path)
+
+def lambda_handler(event, context):
+  for record in event['Records']:
+    bucket = record['s3']['bucket']['name']
+    key = unquote_plus(record['s3']['object']['key'])
+    tmpkey = key.replace('/', '')
+    download_path = '/tmp/{}{}'.format(uuid.uuid4(), tmpkey)
+    upload_path = '/tmp/resized-{}'.format(tmpkey)
+    s3_client.download_file(bucket, key, download_path)
+    resize_image(download_path, upload_path)
+    s3_client.upload_file(upload_path, '{}-resized'.format(bucket), 'resized-{}'.format(key))
 ```
 
-<CustomImage
-	src="https://raw.githubusercontent.com/cedaring-xr/blog-content-templates/main/images/blackandRedSunset.png"
-	alt="placeholder for now"
-	priority="true"
-/>
+&nbsp;&nbsp;&nbsp;&nbsp;Since the code requires 2 python libraries, let's create 2 different Lambda layers, one for each of the libraries. It is important to keep in mind that the libraries are running on AWS architecture and need to be configured to run correctly. The packages running on your local machine likely will not be configured in the same way as the ones within AWS. There are 2 main ways to handle these necessary changes. One way is to run a Docker container using the ubuntu linux version that is used by AWS, then install the desired packages on the container and zip them into a folder from there. This ensures that you get the correct version and configuration that you need, but requires a bit of knowledge about Docker and selecting the write configuration options.
+
+Tutorial for creating python lambda packages with Docker [link](https://www.geeksforgeeks.org/how-to-install-python-packages-for-aws-lambda-layers/)
+
+&nbsp;&nbsp;&nbsp;&nbsp;Alternatively you can just download pre-packaged libraries that are compatible with Lambda from a library repository source. This is the easier way of handling dependencies, but you have to make sure that the repository source has the libraries that you need.
+
+Github repository with list of pre-packaged Lambda compatile Python libraries [link](https://github.com/Miserlou/lambda-packages)
+
+&nbsp;&nbsp;&nbsp;&nbsp;Once the zip file for the library is done, create a new Lambda layer from within the AWS Lambda console. Upload the zip folder as the layer. You will need one layer for each libary required by the Lambda function. After a layer is created, you will need a way to test it. Use the example code from above or your own function. Attach the layer to the function code. Use the test tab from within the AWS console to make sure that the layers are working with the function code.
