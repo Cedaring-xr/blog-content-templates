@@ -2,7 +2,7 @@
 title: 'Lambda Layers with Python'
 date: '2023-12-20'
 tags: ['AWS Lambda', 'serverless', 'Python']
-readTime: '~3 min'
+readTime: '~5 min'
 ---
 
 **Intro into AWS Lambda and Lambda layers**
@@ -51,10 +51,10 @@ def lambda_handler(event, context):
 
 &nbsp;&nbsp;&nbsp;&nbsp;Since the code requires 2 python libraries, let's create 2 different Lambda layers, one for each of the libraries. It is important to keep in mind that the libraries are running on AWS architecture and need to be configured to run correctly. The packages running on your local machine likely will not be configured in the same way as the ones within AWS. There are 2 main ways to handle these necessary changes. One way is to run a Docker container using the ubuntu linux version that is used by AWS, then install the desired packages on the container and zip them into a folder from there. This ensures that you get the correct version and configuration that you need, but requires a bit of knowledge about Docker and selecting the write configuration options.
 
-Tutorial for creating python lambda packages with Docker [link](https://www.geeksforgeeks.org/how-to-install-python-packages-for-aws-lambda-layers/)
+Tutorial for creating python lambda packages with Docker [Article link](https://www.geeksforgeeks.org/how-to-install-python-packages-for-aws-lambda-layers/)
 
 &nbsp;&nbsp;&nbsp;&nbsp;Alternatively you can just download pre-packaged libraries that are compatible with Lambda from a library repository source. This is the easier way of handling dependencies, but you have to make sure that the repository source has the libraries that you need.
 
-Github repository with list of pre-packaged Lambda compatile Python libraries [link](https://github.com/Miserlou/lambda-packages)
+Github repository with list of pre-packaged Lambda compatile Python libraries [Github link](https://github.com/Miserlou/lambda-packages)
 
 &nbsp;&nbsp;&nbsp;&nbsp;Once the zip file for the library is done, create a new Lambda layer from within the AWS Lambda console. Upload the zip folder as the layer. You will need one layer for each libary required by the Lambda function. After a layer is created, you will need a way to test it. Use the example code from above or your own function. Attach the layer to the function code. Use the test tab from within the AWS console to make sure that the layers are working with the function code.
