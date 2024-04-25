@@ -1,0 +1,32 @@
+---
+title: 'Comparing WordPress hosting performance'
+date: '2024-04-05'
+tags: ['AWS', 'WordPress']
+readTime: '~5 min'
+---
+
+**Comparing WordPress Hosting options in performance and cost**
+
+&nbsp;&nbsp;&nbsp;&nbsp;In 2024, WordPress is still one of the most popular website building tools out there. With WordPress being so widely used and often preffered by less technical web designers, there comes a lot of hosting options that cater specifically to that demographic. There is a ton of advertising out there geared towards saying that they are the best platform to host a WordPress website with.
+
+**Hosting Options**
+
+&nbsp;&nbsp;&nbsp;&nbsp;Layers are a feature on top of AWS Lambda. They represent an abstracted layer on top of the function that store dependecy code needed for Lambda functions to run correctly. Layers are independent from the code that you want to use in Lambda. The can be added, removed, or updated without having to modify function code.
+
+**Testing**
+
+&nbsp;&nbsp;&nbsp;&nbsp;I built a simple website using WordPress and hosted the exact same site on 4 different platforms in order to test perforance and functionality differences.
+
+**Setting up with Python**
+
+&nbsp;&nbsp;&nbsp;&nbsp;Python is a great language to start writing Lambda functions in. I'll be using it as an example here. Let's start with a small function for use in Lambda. This code just resizes some images stored in an AWS S3 bucket. It requires 2 different Python libraries to work though. PIL which is stands for pillow imaging library, which is needed for processing the images. And Boto, with is a library for interfacing with AWS.
+
+&nbsp;&nbsp;&nbsp;&nbsp;Since the code requires 2 python libraries, let's create 2 different Lambda layers, one for each of the libraries. It is important to keep in mind that the libraries are running on AWS architecture and need to be configured to run correctly. The packages running on your local machine likely will not be configured in the same way as the ones within AWS. There are 2 main ways to handle these necessary changes. One way is to run a Docker container using the ubuntu linux version that is used by AWS, then install the desired packages on the container and zip them into a folder from there. This ensures that you get the correct version and configuration that you need, but requires a bit of knowledge about Docker and selecting the write configuration options.
+
+Tutorial for creating python lambda packages with Docker [Article link](https://www.geeksforgeeks.org/how-to-install-python-packages-for-aws-lambda-layers/)
+
+&nbsp;&nbsp;&nbsp;&nbsp;Alternatively you can just download pre-packaged libraries that are compatible with Lambda from a library repository source. This is the easier way of handling dependencies, but you have to make sure that the repository source has the libraries that you need.
+
+Github repository with list of pre-packaged Lambda compatile Python libraries [Github link](https://github.com/Miserlou/lambda-packages)
+
+&nbsp;&nbsp;&nbsp;&nbsp;Once the zip file for the library is done, create a new Lambda layer from within the AWS Lambda console. Upload the zip folder as the layer. You will need one layer for each libary required by the Lambda function. After a layer is created, you will need a way to test it. Use the example code from above or your own function. Attach the layer to the function code. Use the test tab from within the AWS console to make sure that the layers are working with the function code.
