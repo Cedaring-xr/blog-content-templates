@@ -2,7 +2,7 @@
 title: 'Scaling typography with dynamic units'
 date: '2024-04-25'
 tags: ['CSS', 'typography', 'accessibility', 'design']
-readTime: '~8 min'
+readTime: '~12 min'
 ---
 
 TLDR: Using REM units for text sizing allows for text to scale to the preferred size set by the user on their device. Doing so helps to increase accessibility for a fairly substantial amount of users, however it may also introduce layout shifting bugs at the more extreme settings.
@@ -34,10 +34,20 @@ Here is a reference chart to easily understand how rem units convert into pixel 
 
 &nbsp;&nbsp;&nbsp;&nbsp; Allowing users to adjust their experience on your website via accessibility options can become very important. Users have a variety of ways to increase text size in order to make elements on a webpage more readable. The least common way is to change the settings of the browser that is being used. For all modern browsers, within the settings there is an option to change the default font size across all websites visited when using that browser. Doing so has the same effect as changing the root element size for that website. One more common way of changing the sizing on a webpage is using the ctrl + plus or ctrl + minus keys in order to scale the elements on the webpage up or down. This effects most elements on a webpage not just text which can be nice but also may cause layout shift and odd behaviors. The best way for users to change font sizes to be more readable is to scale the default font size on their native device. This method is often used on mobile devices and tablets. Setting the text size on a phone not only effects the settings of the phone but also extends to the settings of browsers and applications if websites are using units such as REMs.
 
-&nbsp;&nbsp;&nbsp;&nbsp; Using REM units instead of PX become even more important when considering accessibility options of the
+&nbsp;&nbsp;&nbsp;&nbsp; Below is an example of what a google search looks like on the default settings vs what the same result looks like after a user has increased the text size from within the settings on their device. Google uses REM units, so the changes effect how the user sees search results on the page.
 
-&nbsp;&nbsp;&nbsp;&nbsp; Below is an example of what a website that uses rem units looks like on the default settings vs what the same website looks like after a user has increased the text size from within the settings on their device.
+<CustomImage
+	src="https://raw.githubusercontent.com/cedaring-xr/blog-content-templates/main/images/REMdefault.jpg"
+	alt="Cypress testing logo"
+	priority="true"
+	width="300px"
+/>
 
-&nbsp;&nbsp;&nbsp;&nbsp; ADA compliance should be a factor that many businesses should be considering.
+<CustomImage
+	src="https://raw.githubusercontent.com/cedaring-xr/blog-content-templates/main/images/REMlarge.jpg"
+	alt="Cypress testing logo"
+	priority="true"
+	width="300px"
+/>
 
-&nbsp;&nbsp;&nbsp;&nbsp;summary paragraph
+&nbsp;&nbsp;&nbsp;&nbsp;Allowing users to select the font sizes that they are most comfortable with, and adjusting automatically to each users preferences is a better standard to go by compared to explicitly settings a font size for all users that is harder to adjust.
