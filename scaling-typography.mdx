@@ -1,5 +1,5 @@
 ---
-title: 'Scaling typography with rem units'
+title: 'Scaling typography with dynamic units'
 date: '2024-04-25'
 tags: ['CSS', 'typography', 'accessibility', 'design']
 readTime: '~8 min'
@@ -7,13 +7,16 @@ readTime: '~8 min'
 
 TLDR: Using REM units for text sizing allows for text to scale to the preferred size set by the user on their device. Doing so helps to increase accessibility for a fairly substantial amount of users, however it may also introduce layout shifting bugs at the more extreme settings.
 
-CSS (cascading style sheets) is the code that is used to style and arrange the visual presentation of a web page. There are a handful of potential units that can be used for sizing of items and space in CSS. PX (pixels) is the most common and represents a static size comparable to the resolution of the device being used to view the web page. REM units are a measurement that is defined by the font size of the root `'<html>'` element on the web page. By default most browsers set the font size to 16px, so 1rem = 16px. EM units are similar to REM units but are used a lot less frequently. While REM units are based on the font size of the root, EM units are based on the font size of the direct parent element. So if a container has a defined font size of 10px, then a paragraph inside the container with a font size of 2em = 20px.
+**Brief intro on CSS and measurement units**
+
+&nbsp;&nbsp;&nbsp;&nbsp;CSS (cascading style sheets) is the code that is used to style and arrange the visual presentation of a web page. There are a handful of potential units that can be used for sizing of items and space in CSS. PX (pixels) is the most common and represents a static size comparable to the resolution of the device being used to view the web page. REM units are a measurement that is defined by the font size of the root `<html>` element on the web page. By default most browsers set the font size to 16px, so 1rem = 16px. EM units are similar to REM units but are used a lot less frequently. While REM units are based on the font size of the root, EM units are based on the font size of the direct parent element. So if a container has a defined font size of 10px, then a paragraph inside the container with a font size of 2em would equal 20px. Because EM units work based on nested containers, they can become confusing to work with or end up with unexpected results.
 
 **Why REM units are relevant**
 
-&nbsp;&nbsp;&nbsp;&nbsp; REM units are most commonly used for the sizing of text and the space surrounding text. This makes sense because the entire REM unit is based off the font size of the root. Since a REM is a relative size, it allows for a high amount of flexibility that can be centrally controlled by simply changing the root. For example if you want the entire website to have smaller text when on mobile devices, you can capture the device type and change the root font size to be slightly smaller when device type is equal to mobile.
+&nbsp;&nbsp;&nbsp;&nbsp;REM units are most commonly used for the sizing of text and the space surrounding text. This makes sense because the entire REM unit is based off the font size of the root. Since a REM is a relative size, it allows for a high amount of flexibility that can be centrally controlled by simply changing the root. For example if you want the entire website to have smaller text when on mobile devices, you can capture the device type and change the root font size to be slightly smaller when device type is equal to mobile. This saves the headache of adding media queries for each segment and changing the font size independently all over the website.
 
 Here is a reference chart to easily understand how rem units convert into pixel sizes (on default settings)
+
 | 4px | 0.25rem |
 | 8px | 0.5rem |
 | 10px | 0.625rem |
@@ -29,15 +32,12 @@ Here is a reference chart to easily understand how rem units convert into pixel 
 
 **Accessibility scaling**
 
-&nbsp;&nbsp;&nbsp;&nbsp; Using REM units instead of PX become even more important when considering accessibility options of the users. Users have a variety of ways to increase text size in order to make elements on a webpage more readable. The lease common way is to change the settings of the browser that is being used. For all modern browsers, within the settings there is an option to change the default font size across all websites visited when using that browser. Doing so has the same effect as changing the root element size,
+&nbsp;&nbsp;&nbsp;&nbsp; Allowing users to adjust their experience on your website via accessibility options can become very important. Users have a variety of ways to increase text size in order to make elements on a webpage more readable. The least common way is to change the settings of the browser that is being used. For all modern browsers, within the settings there is an option to change the default font size across all websites visited when using that browser. Doing so has the same effect as changing the root element size for that website. One more common way of changing the sizing on a webpage is using the ctrl + plus or ctrl + minus keys in order to scale the elements on the webpage up or down. This effects most elements on a webpage not just text which can be nice but also may cause layout shift and odd behaviors. The best way for users to change font sizes to be more readable is to scale the default font size on their native device. This method is often used on mobile devices and tablets. Setting the text size on a phone not only effects the settings of the phone but also extends to the settings of browsers and applications if websites are using units such as REMs.
+
+&nbsp;&nbsp;&nbsp;&nbsp; Using REM units instead of PX become even more important when considering accessibility options of the
 
 &nbsp;&nbsp;&nbsp;&nbsp; Below is an example of what a website that uses rem units looks like on the default settings vs what the same website looks like after a user has increased the text size from within the settings on their device.
 
-<CustomImage
-	src="https://raw.githubusercontent.com/cedaring-xr/blog-content-templates/main/images/Cypress_logo.png"
-	alt="Cypress testing logo"
-	priority="true"
-	width="300px"
-/>
+&nbsp;&nbsp;&nbsp;&nbsp; ADA compliance should be a factor that many businesses should be considering.
 
 &nbsp;&nbsp;&nbsp;&nbsp;summary paragraph

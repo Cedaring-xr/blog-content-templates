@@ -1,32 +1,40 @@
 ---
 title: 'Performant website testing'
-date: '2023-12-20'
+date: '2024-06-27'
 tags: ['AWS Lambda', 'serverless', 'Python']
-readTime: '~5 min'
+readTime: '~10 min'
 ---
 
 **What it means to perform full testing of a website**
 
-&nbsp;&nbsp;&nbsp;&nbsp;AWS Lambda is a serverless AWS service that runs simple computation functions. It allows you to run smaller dedicated bits of code without setting up and allocating server space. Lambda has a wide variety of uses from data processing, API connections, workflow automation, file processing, scheduled tasks, and others. Lambda functions can be written in a variety of languages such as Node, Python, Java, Go, .Net, and Ruby.
+&nbsp;&nbsp;&nbsp;&nbsp;I have a professional background as a Quality Assurance Engineer on web-based platforms. Quality Assurance as a profession is a position within the realm of software development that's goal is to assure that the end product that is given to a customer is of the highest quality possible. What this means in practice is to spend time testing web-based applications and surfacing bugs and issues to developers so that they get fixed before making it to the end user.
 
-**Lambda Layers**
+&nbsp;&nbsp;&nbsp;&nbsp;There are a number of different types or sub-categories of testing that are contained within the responsibilities of a Quality Assurance Engineer. I will only touch on some of the more important ones here. Some examples are: black-box testing, responsive testing, cross-browser testing, performance testing, accessibility testing, regression testing, security testing and others.
 
-&nbsp;&nbsp;&nbsp;&nbsp;Layers are a feature on top of AWS Lambda. They represent an abstracted layer on top of the function that store dependecy code needed for Lambda functions to run correctly. Layers are independent from the code that you want to use in Lambda. The can be added, removed, or updated without having to modify function code.
+**Black-box testing**
 
-**The benefits of layers**
+&nbsp;&nbsp;&nbsp;&nbsp;When starting out testing a new website, it is best to approach it from the mindset of a end user of the website. If you are the one that build it, then change your mindset to act like it is the first time ever visiting the site. Take things slowly and deliberately. The website acts as a black box that you do not know the inner workings of. All you have is the output that is visible on screen. Make note of how the navigation works (is it intuitive, are there any hidden or dead-end pages). Make note of how content is arranged on the page (do sections logically flow into each other). Make note of any buttons or dynamic content sections (are buttons behaving consistently. Does dynamic content load into the page correctly). Make note of the images and text on each page (do images show up clearing with correct proportions. Is all text readable).
 
-&nbsp;&nbsp;&nbsp;&nbsp;Using Lambda layers offers a number of benefits but let's look at the alternative first. The alternaitve to using Lambda layers is to zip your entire Lambda application and all dependencies into a folder and upload it as a single unit to AWS Lambda. While this is a nice way of knowing that your application has all the neccesary part to work, it has a few downsides. There is no sense of re-usability in your dependencies. So if you had 10 different Lambda functions that all use Boto3 as a dependency, then you would have to package each function with a version of Boto. Another main benefit is that you can easily modify function code without having to re-package and re-upload code. AWS Lambda has a 3MB limit for the package code to be editable from within the console. When writing only function code, this limit is easy to stay below. If packaging dependencies with code, then the total package size is almost always over 3MB, meaning that you can not edit or modify code without re-zipping and re-upload a new package. Editing Lambda function code from within the console is a quick and easy way to make minor changes, test things quickly, and get immediate feedback.
+&nbsp;&nbsp;&nbsp;&nbsp;For larger and more detailed websites or web applications, create a "happy path" workflow. The "happy path" is the most logical navigation or page pathing that users will go through. Ensuring that the most commonly used features are working correctly is more important than testing for edge case scenarios.
 
-**Setting up with Python**
+**Testing Responsiveness**
 
-&nbsp;&nbsp;&nbsp;&nbsp;Python is a great language to start writing Lambda functions in. I'll be using it as an example here. Let's start with a small function for use in Lambda. This code just resizes some images stored in an AWS S3 bucket. It requires 2 different Python libraries to work though. PIL which is stands for pillow imaging library, which is needed for processing the images. And Boto, with is a library for interfacing with AWS.
+&nbsp;&nbsp;&nbsp;&nbsp;Responsive web design is a pivotal part of having a modern website. Users who visit the site will be using a wide variety of devices and screen sizes. Having a responsive design allows for the website to look good and be consistent on any of the devices that it might be viewed on. Testing for responsive design is relatively easy although it can become time consuming. The best way to test for responsive design is to use a wide variety of physical devices to access the website. An alternative to having to have lots of different devices is to simulate them.
 
-&nbsp;&nbsp;&nbsp;&nbsp;Since the code requires 2 python libraries, let's create 2 different Lambda layers, one for each of the libraries. It is important to keep in mind that the libraries are running on AWS architecture and need to be configured to run correctly. The packages running on your local machine likely will not be configured in the same way as the ones within AWS. There are 2 main ways to handle these necessary changes. One way is to run a Docker container using the ubuntu linux version that is used by AWS, then install the desired packages on the container and zip them into a folder from there. This ensures that you get the correct version and configuration that you need, but requires a bit of knowledge about Docker and selecting the write configuration options.
+**Cross-browser testing**
 
-Tutorial for creating python lambda packages with Docker [Article link](https://www.geeksforgeeks.org/how-to-install-python-packages-for-aws-lambda-layers/)
+&nbsp;&nbsp;&nbsp;&nbsp;Different users prefer using different browsers when accessing the web. You cannot testing on your preferred browser and expect things to work the same for all users. Different browsers behave differently in subtle ways that may effect how the website is displayed.
 
-&nbsp;&nbsp;&nbsp;&nbsp;Alternatively you can just download pre-packaged libraries that are compatible with Lambda from a library repository source. This is the easier way of handling dependencies, but you have to make sure that the repository source has the libraries that you need.
+**Accessibility Testing**
 
-Github repository with list of pre-packaged Lambda compatile Python libraries [Github link](https://github.com/Miserlou/lambda-packages)
+&nbsp;&nbsp;&nbsp;&nbsp;Accessibility of websites refers to the ability for
 
-&nbsp;&nbsp;&nbsp;&nbsp;Once the zip file for the library is done, create a new Lambda layer from within the AWS Lambda console. Upload the zip folder as the layer. You will need one layer for each libary required by the Lambda function. After a layer is created, you will need a way to test it. Use the example code from above or your own function. Attach the layer to the function code. Use the test tab from within the AWS console to make sure that the layers are working with the function code.
+**Performance testing**
+
+&nbsp;&nbsp;&nbsp;&nbsp;Performance testing refers to how a website functions
+
+**Google Lighthouse as a testing metric**
+
+&nbsp;&nbsp;&nbsp;&nbsp;Google Lighthouse is a built-in browser tool available for Chromium based browsers that will audit the quality and performance of a web page and return a report and some advice on how to improve best practices. The Lighthouse tool can be a quick way to understand the basic structure of a web page.
+
+&nbsp;&nbsp;&nbsp;&nbsp;However, there are a few downsides to the tool. Firstly, it only runs on a single web page at a time. It is not a comprehensive audit of an entire website. Most of the time Lighthouse will be run on the landing page of a website since that is the most important page to make a good first impression with users. Secondly, Lighthouse is not incredibly accurate. Running the tool back to back on the same web page will often return slightly different metric numbers. It is important to take the results with a grain of salt and not get caught up on specific numbers. It is only meant to give a quick general perspective on how a web page is performing. Thirdly, the improvement suggestions are not always correct or a good idea to implement.
