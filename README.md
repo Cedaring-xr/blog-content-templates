@@ -4,3 +4,5 @@ blogs posts are written in markdown and parsed by the blog application
 all mdx files in the root of the project will show up as individual posts
 
 All mdx files under depricated folder should not show up as blog posts
+
+Added webhook for auto detech of changes from this repo on the blog repo
